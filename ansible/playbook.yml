@@ -1,0 +1,36 @@
+---
+- hosts: dev
+  gather_facts: no
+  become: true
+  tasks:
+    - name: Install required packages
+      yum:
+        name:
+          # - epel-release
+          - git
+          - python-pip
+          - docker
+        state: present
+    - name: enable the web service
+      service:
+        name: 
+          - nginx
+          - docker
+        state: started
+        enabled: true
+    - name: connect to github pls 
+      git:
+        user: elayvilkom
+        token: x
+        path: /home/ec2-user/CICD/ansible
+        branch: main
+        comment: f my life is so hard
+        add: [ "." ]
+        mode: local
+        url: https://github.com/elayvilkom/CICD.git
+    - name: clone a repo in git 
+      git:
+        repo: https://github.com/kerenbirzon/Devops-CICD-Udi-Center-app.git
+        dest: /home/ec2_user
+        clone: yes
+        update: yes
