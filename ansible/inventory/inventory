@@ -1,0 +1,20 @@
+---
+plugin: amazon.aws.aws_ec2
+regions:
+  - us-east-1  
+filters:
+  tag:Manage-elay: "true"
+
+keyed_groups:
+  - prefix: manage_
+    key: tags.Name
+
+compose:
+  ansible_host: public_ip_address
+  services: tag.Service
+  versions: tag.Version | default('latest')
+  names: tag.Name
+  restarts: tag.Restart
+
+hostname:
+  - tag: Name  
